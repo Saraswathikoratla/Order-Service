@@ -3,11 +3,13 @@ package com.saraswathi.controller;
 import com.saraswathi.dto.OrderRequest;
 import com.saraswathi.dto.Product;
 import com.saraswathi.service.ProductClient;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
+@Slf4j
 public class OrderController {
 
     @GetMapping("/all")
@@ -15,6 +17,7 @@ public class OrderController {
             @RequestHeader("X-User") String user,
             @RequestHeader(value = "X-Role", required = false) String role) {
         System.out.println("role.."+role);
+        log.info("role  {}     : ",role);
         return "Orders for user: " + user + " | Role: " + role;
     }
     @Autowired
