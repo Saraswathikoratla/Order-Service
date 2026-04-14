@@ -19,41 +19,41 @@ public class OrderController {
 
     public OrderController(OrderService service) {
         this.service = service;
-
-    @GetMapping("/all")
-    public String getOrders(
-            @RequestHeader("X-User") String user,
-            @RequestHeader(value = "X-Role", required = false) String role) {
-        System.out.println("role.."+role);
-        log.info("role  {}     : ",role);
-        return "Orders for user: " + user + " | Role: " + role;
-
     }
+        @GetMapping("/all")
+        public String getOrders (
+                @RequestHeader("X-User") String user,
+                @RequestHeader(value = "X-Role", required = false) String role){
+            System.out.println("role.." + role);
+            log.info("role  {}     : ", role);
+            return "Orders for user: " + user + " | Role: " + role;
 
-    @PostMapping
-    public OrderResponse placeOrder(
-            @RequestHeader("X-User") String user,
-            @RequestBody OrderRequest request) {
-
-        Product product = service.getProductById(request.getProductId());
-
-        OrderResponse response = new OrderResponse();
-        response.setUser(user);
-        response.setProduct(product);
-
-        // 🔥 Handle fallback case
-        if (product == null || product.getQuantity() == 0) {
-            response.setMessage("Product service unavailable");
-            return response;
         }
 
-        // 🔥 Business logic
-        if (product.getQuantity() < request.getQuantity()) {
-            response.setMessage("Insufficient stock");
+        @PostMapping
+        public OrderResponse placeOrder (
+                @RequestHeader("X-User") String user,
+                @RequestBody OrderRequest request){
+
+            Product product = service.getProductById(request.getProductId());
+
+            OrderResponse response = new OrderResponse();
+            response.setUser(user);
+            response.setProduct(product);
+
+            // 🔥 Handle fallback case
+            if (product == null || product.getQuantity() == 0) {
+                response.setMessage("Product service unavailable");
+                return response;
+            }
+
+            // 🔥 Business logic
+            if (product.getQuantity() < request.getQuantity()) {
+                response.setMessage("Insufficient stock");
+                return response;
+            }
+
+            response.setMessage("Order placed successfully");
             return response;
         }
-
-        response.setMessage("Order placed successfully");
-        return response;
     }
-}
