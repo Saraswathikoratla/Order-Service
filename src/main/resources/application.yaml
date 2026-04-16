@@ -36,3 +36,18 @@ management:
   health:
     circuitbreakers:
       enabled: true   # 🔥 IMPORTANT
+
+
+  tracing:
+    sampling:
+      probability: 1.0
+
+  zipkin:
+    tracing:
+      endpoint: http://localhost:9411/api/v2/spans
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
