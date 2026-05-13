@@ -158,9 +158,11 @@
 					<source>17</source>
 					<target>17</target>
 				</configuration>
+
 			</plugin>
 
 		</plugins>
+		<finalName>order-service-docker</finalName>
 	</build>
 
 </project>
